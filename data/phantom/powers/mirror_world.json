@@ -77,15 +77,8 @@
         "type": "origins:action_over_time",
         "interval": 1,
         "entity_action": {
-            "type": "origins:block_action_at",
-            "block_action": {
-                "type": "origins:area_of_effect",
-                "radius": 5,
-                "block_action": {
-                    "type": "origins:execute_command",
-                    "command": "function phantom:detect_glass"
-                }
-            }
+            "type": "origins:execute_command",
+            "command": "execute at @s run function phantom:detect_glass_scan"
         }
     }
 }

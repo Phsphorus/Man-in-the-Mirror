@@ -15,27 +15,32 @@
             "actions": [
                 {
                     "type": "origins:execute_command",
-                    "command": "execute at @e[tag=UnstableGatewayStandForMirror] run forceload add ~ ~",
+                    "command": "execute at @s run forceload add ~ ~",
                     "permission_level": 4
                 },
                 {
                     "type": "origins:execute_command",
-                    "command": "execute at @s run setblock ~ ~ ~ minecraft:glass",
+                    "command": "execute at @s in minecraft:overworld run forceload add ~ ~",
                     "permission_level": 4
                 },
                 {
                     "type": "origins:execute_command",
-                    "command": "execute at @s run setblock ~ ~1 ~ minecraft:glass",
+                    "command": "execute at @s run setblock ~ ~ ~ minecraft:glass keep",
                     "permission_level": 4
                 },
                 {
                     "type": "origins:execute_command",
-                    "command": "execute at @s run execute in minecraft:overworld run setblock ~ ~ ~ minecraft:glass",
+                    "command": "execute at @s run setblock ~ ~1 ~ minecraft:glass keep",
                     "permission_level": 4
                 },
                 {
                     "type": "origins:execute_command",
-                    "command": "execute at @s run execute in minecraft:overworld run setblock ~ ~1 ~ minecraft:glass",
+                    "command": "execute at @s run execute in minecraft:overworld run setblock ~ ~ ~ minecraft:glass keep",
+                    "permission_level": 4
+                },
+                {
+                    "type": "origins:execute_command",
+                    "command": "execute at @s run execute in minecraft:overworld run setblock ~ ~1 ~ minecraft:glass keep",
                     "permission_level": 4
                 },
                 {
@@ -98,22 +103,22 @@
             "actions": [
                 {
                     "type": "origins:execute_command",
-                    "command": "execute at @s run setblock ~ ~ ~ minecraft:air",
+                    "command": "execute at @s if block ~ ~ ~ minecraft:glass run setblock ~ ~ ~ minecraft:air",
                     "permission_level": 4
                 },
                 {
                     "type": "origins:execute_command",
-                    "command": "execute at @s run setblock ~ ~1 ~ minecraft:air",
+                    "command": "execute at @s if block ~ ~1 ~ minecraft:glass run setblock ~ ~1 ~ minecraft:air",
                     "permission_level": 4
                 },
                 {
                     "type": "origins:execute_command",
-                    "command": "execute at @s run execute in minecraft:overworld run setblock ~ ~ ~ minecraft:air",
+                    "command": "execute at @s run execute in minecraft:overworld if block ~ ~ ~ minecraft:glass run setblock ~ ~ ~ minecraft:air",
                     "permission_level": 4
                 },
                 {
                     "type": "origins:execute_command",
-                    "command": "execute at @s in minecraft:overworld run setblock ~ ~1 ~ minecraft:air",
+                    "command": "execute at @s in minecraft:overworld if block ~ ~1 ~ minecraft:glass run setblock ~ ~1 ~ minecraft:air",
                     "permission_level": 4
                 },
                 {
@@ -147,6 +152,15 @@
                 },
                 {
                     "type": "origins:delay",
+                    "ticks": 6,
+                    "action": {
+                        "type": "origins:execute_command",
+                        "command": "execute at @s in minecraft:overworld run forceload remove ~ ~",
+                        "permission_level": 4
+                    }
+                },
+                {
+                    "type": "origins:delay",
                     "ticks": 7,
                     "action": {
                         "type": "origins:execute_command",
@@ -158,7 +172,7 @@
         },
         "condition": {
             "type": "origins:resource",
-            "resource": "*:*_countdown",
+            "resource": "phantom:assign/unstable_gateway_countdown",
             "comparison": ">=",
             "compare_to": 3
         }
@@ -167,7 +181,7 @@
         "type": "origins:action_on_callback",
         "entity_action_gained": {
             "type": "origins:trigger_cooldown",
-            "power": "*:*_countdown"
+            "power": "phantom:assign/unstable_gateway_countdown"
         }
     },
     "sound": {
@@ -190,7 +204,7 @@
         },
         "condition": {
             "type": "origins:resource",
-            "resource": "*:*_countdown",
+            "resource": "phantom:assign/unstable_gateway_countdown",
             "comparison": ">=",
             "compare_to": 3
         }

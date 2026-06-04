@@ -12,26 +12,49 @@
     "toggle_active": {
         "type": "origins:active_self",
         "key": {
-            "key": "key.origins.secondary_active"
+            "key": "key.origins.secondary_active",
+            "continuous": false
         },
         "entity_action": {
             "type": "origins:if_else",
             "condition": {
                 "type": "origins:resource",
-                "resource": "*:*_toggle",
+                "resource": "phantom:trap_in_a_box_toggle",
                 "comparison": "==",
                 "compare_to": 0
             },
             "if_action": {
-                "type": "origins:change_resource",
-                "resource": "*:*_toggle",
-                "change": 1
+                "type": "origins:and",
+                "actions": [
+                    {
+                        "type": "origins:change_resource",
+                        "resource": "phantom:trap_in_a_box_toggle",
+                        "change": 1
+                    },
+                    {
+                        "type": "origins:execute_command",
+                        "command": "title @s actionbar {\"text\":\"Trap in a Box armed\",\"color\":\"aqua\"}"
+                    },
+                    {
+                        "type": "origins:execute_command",
+                        "command": "playsound minecraft:block.amethyst_block.chime player @s ~ ~ ~ 0.4 1.4"
+                    }
+                ]
             },
             "else_action": {
-                "type": "origins:change_resource",
-                "resource": "*:*_toggle",
-                "change": 0,
-                "operation": "set"
+                "type": "origins:and",
+                "actions": [
+                    {
+                        "type": "origins:change_resource",
+                        "resource": "phantom:trap_in_a_box_toggle",
+                        "change": 0,
+                        "operation": "set"
+                    },
+                    {
+                        "type": "origins:execute_command",
+                        "command": "title @s actionbar {\"text\":\"Trap in a Box disarmed.\",\"color\":\"gray\"}"
+                    }
+                ]
             }
         }
     },
@@ -41,15 +64,7 @@
         "max": 1,
         "start_value": 0,
         "hud_render": {
-            "should_render": true,
-            "condition": {
-                "type": "origins:resource",
-                "resource": "*:*_toggle",
-                "comparison": "==",
-                "compare_to": 1
-            },
-            "sprite_location": "origins:textures/gui/community/spiderkolo/resource_bar_01.png",
-            "bar_index": 4
+            "should_render": false
         }
     },
     "trap": {
@@ -67,26 +82,43 @@
             "conditions": [
                 {
                     "type": "origins:resource",
-                    "resource": "*:*_toggle",
+                    "resource": "phantom:trap_in_a_box_toggle",
                     "comparison": "==",
                     "compare_to": 1
                 },
                 {
                     "type": "origins:resource",
-                    "resource": "*:*_cooldown",
+                    "resource": "phantom:trap_in_a_box_cooldown",
                     "comparison": "==",
                     "compare_to": 0
                 }
             ]
         },
+        "action_result": "success",
+        "priority": 10,
         "bientity_action": {
             "type": "origins:and",
             "actions": [
                 {
                     "type": "origins:actor_action",
                     "action": {
-                        "type": "origins:trigger_cooldown",
-                        "power": "*:*_cooldown"
+                        "type": "origins:and",
+                        "actions": [
+                            {
+                                "type": "origins:trigger_cooldown",
+                                "power": "phantom:trap_in_a_box_cooldown"
+                            },
+                            {
+                                "type": "origins:change_resource",
+                                "resource": "phantom:trap_in_a_box_toggle",
+                                "change": 0,
+                                "operation": "set"
+                            },
+                            {
+                                "type": "origins:execute_command",
+                                "command": "title @s actionbar {\"text\":\"Target trapped.\",\"color\":\"aqua\"}"
+                            }
+                        ]
                     }
                 },
                 {
